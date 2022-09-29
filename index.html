@@ -65,8 +65,35 @@
                 </h2>
                 <h4><i>Under Review at ICLR 2023</i></h4>
                 <p>Anonymous Authors</p>
-                <p><a href="https://openreview.net/forum?id=TFbwV6I0VLg">[Paper]</a></p>
+                <p>
+                    <a href="https://openreview.net/forum?id=TFbwV6I0VLg"
+                        >[Paper]</a
+                    >
+                </p>
             </div>
+        </div>
+
+        <!--------------------- Teaser --------------------->
+        <div class="container">
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/phyre/task-21/00021133.gif"
+                    style="width: 30%"
+                />
+                &nbsp;
+                <img
+                    border="0"
+                    src="src/phyre/task-22/00022819.gif"
+                    style="width: 30%"
+                />
+                &nbsp;
+                <img
+                    border="0"
+                    src="src/phyre/task-7/00007001.gif"
+                    style="width: 30%"
+                />
+            </p>
         </div>
 
         <!--------------------- Abstract --------------------->
@@ -108,11 +135,10 @@
         </div>
         <div class="container_img">
             <p align="center">
-                <img border="0" src="src/pipeline.png" style="width: 75%" />
+                <img border="0" src="src/pipeline.png" style="width: 65%" />
             </p>
         </div>
         <div class="container">
-            <br />
             <p>
                 SlotFormer architecture overview. Taking multiple video frames
                 $\{x_t\}_{t=1}^T$ as input, we first extract object slots
@@ -122,6 +148,23 @@
                 the Transformer module to generate future slots
                 $\{\hat{\mathcal{S}}_{T+k}\}_{k=1}^K$ in an autoregressive
                 manner.
+            </p>
+        </div>
+        <div class="container_img">
+            <p align="center">
+                <img border="0" src="src/vqa-pipeline.png" style="width: 75%" />
+            </p>
+        </div>
+        <div class="container">
+            <p>
+                SlotFormer integrated with downstream task models. Given a video
+                and a question about the future event, (left) a vanilla VQA
+                model only reasons over observed frames and predicts the wrong
+                answer. (right) In contrast, we leverage SlotFormer to simulate
+                accurate future frames, which contain useful information for
+                producing the correct answer. In this way, the unsupervised
+                dynamics knowledge learned by SlotFormer can be transfered to
+                improve downstream supervised tasks.
             </p>
         </div>
 
@@ -137,34 +180,35 @@
                 We use 6 burn-in frames, and rollout until 50 frames.
             </p>
             <div align="left">
-                <h4>
+                <h5>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    GT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    PredRNN &nbsp;&nbsp;&nbsp; SAVi-dyn &nbsp;&nbsp;&nbsp; G-SWM
-                    &nbsp;&nbsp;&nbsp; VQFormer &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GT
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PredRNN &nbsp; SAVi-dyn
+                    &nbsp;&nbsp; G-SWM &nbsp;&nbsp; VQFormer &nbsp;&nbsp;&nbsp;
                     Ours
-                </h4>
+                </h5>
             </div>
             <p align="center">
                 <img
                     border="0"
                     src="src/obj3d/83-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
-                    style="width: 80%"
+                    style="width: 60%"
                 />
             </p>
             <p align="center">
                 <img
                     border="0"
                     src="src/obj3d/31-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
-                    style="width: 80%"
+                    style="width: 60%"
                 />
             </p>
             <p align="center">
                 <img
                     border="0"
                     src="src/obj3d/194-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
-                    style="width: 80%"
+                    style="width: 60%"
                 />
             </p>
             <hr />
@@ -176,34 +220,35 @@
                 CLEVRER. We use 6 burn-in frames, and rollout until 48 frames.
             </p>
             <div align="left">
-                <h4>
+                <h5>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    GT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    PredRNN &nbsp;&nbsp;&nbsp; SAVi-dyn &nbsp;&nbsp;&nbsp; G-SWM
-                    &nbsp;&nbsp;&nbsp; VQFormer &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GT
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PredRNN &nbsp; SAVi-dyn
+                    &nbsp;&nbsp; G-SWM &nbsp;&nbsp; VQFormer &nbsp;&nbsp;&nbsp;
                     Ours
-                </h4>
+                </h5>
             </div>
             <p align="center">
                 <img
                     border="0"
                     src="src/clevrer/1138-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
-                    style="width: 80%"
+                    style="width: 60%"
                 />
             </p>
             <p align="center">
                 <img
                     border="0"
                     src="src/clevrer/405-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
-                    style="width: 80%"
+                    style="width: 60%"
                 />
             </p>
             <p align="center">
                 <img
                     border="0"
                     src="src/clevrer/1533-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
-                    style="width: 80%"
+                    style="width: 60%"
                 />
             </p>
             <hr />
@@ -241,7 +286,7 @@
                 &nbsp;
                 <img
                     border="0"
-                    src="src/phyre/task-7/00007001.gif"
+                    src="src/phyre/task-24/00024370.gif"
                     style="width: 30%"
                 />
                 &nbsp;
@@ -260,7 +305,7 @@
                 &nbsp;
                 <img
                     border="0"
-                    src="src/phyre/task-7/00007202.gif"
+                    src="src/phyre/task-24/00024513.gif"
                     style="width: 30%"
                 />
                 &nbsp;
@@ -311,7 +356,7 @@
             <p align="center">
                 <img
                     border="0"
-                    src="src/phyre/task-21/00021133.gif"
+                    src="src/phyre/task-21/00021534.gif"
                     style="width: 30%"
                 />
                 &nbsp;
@@ -323,26 +368,7 @@
                 &nbsp;
                 <img
                     border="0"
-                    src="src/phyre/task-24/00024370.gif"
-                    style="width: 30%"
-                />
-            </p>
-            <p align="center">
-                <img
-                    border="0"
-                    src="src/phyre/task-21/00021534.gif"
-                    style="width: 30%"
-                />
-                &nbsp;
-                <img
-                    border="0"
-                    src="src/phyre/task-22/00022819.gif"
-                    style="width: 30%"
-                />
-                &nbsp;
-                <img
-                    border="0"
-                    src="src/phyre/task-24/00024513.gif"
+                    src="src/phyre/task-7/00007202.gif"
                     style="width: 30%"
                 />
             </p>
