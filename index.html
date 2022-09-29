@@ -28,6 +28,7 @@
                 vertical-align: middle;
                 width: 100%;
                 max-width: 1000px;
+                font-size: 18px;
             }
             .container_img {
                 zoom: 1;
@@ -38,17 +39,166 @@
                 max-width: 1200px;
             }
         </style>
+
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+              tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+              }
+            });
+        </script>
+
+        <script
+            type="text/javascript"
+            src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+        ></script>
     </head>
 
     <body>
         <div class="jumbotron jumbotron-fluid">
             <div class="container" align="center">
                 <h2>
-                    SlotFormer: Unsupervised Visual Dynamics Simulation<br>with Object-Centric Models
+                    SlotFormer: Unsupervised Visual Dynamics Simulation<br />with
+                    Object-Centric Models
                 </h2>
                 <h4><i>Under Review at ICLR 2023</i></h4>
                 <p>Anonymous Authors</p>
             </div>
         </div>
+
+        <!--------------------- Abstract --------------------->
+        <div class="container">
+            <div align="center"><h2>Abstract</h2></div>
+            <hr />
+            <p>
+                Understanding dynamics from visual observations is a challenging
+                problem that requires disentangling individual objects from the
+                scene and learning their interactions. While recent
+                object-centric models can successfully decompose a scene into
+                objects, modeling their dynamics effectively still remains a
+                challenge. We address this problem by introducing SlotFormer --
+                a Transformer-based autoregressive model operating on learned
+                object-centric representations. Given a video clip, our approach
+                reasons over object features to model spatio-temporal
+                relationships and predicts accurate future object states. In
+                this paper, we successfully apply SlotFormer to perform video
+                prediction on datasets with complex object interactions.
+                Moreover, the unsupervised SlotFormer's dynamics model can be
+                used to improve the performance on supervised downstream tasks,
+                such as Visual Question Answering (VQA), and goal-conditioned
+                planning. Compared to past works on dynamics modeling, our
+                method achieves significantly better long-term synthesis of
+                object dynamics, while retaining high quality visual generation.
+                Besides, SlotFormer enables VQA models to reason about the
+                future without object-level labels, even outperforming
+                counterparts that use ground-truth annotations. Finally, we show
+                its ability to serve as a world model for model-based planning,
+                which is competitive with methods designed specifically for such
+                tasks.
+            </p>
+        </div>
+
+        <!--------------------- Method --------------------->
+        <div class="container">
+            <div align="center"><h2>Method</h2></div>
+            <hr />
+        </div>
+        <div class="container_img">
+            <p align="center">
+                <img border="0" src="src/pipeline.png" style="width: 75%" />
+            </p>
+        </div>
+        <div class="container">
+            <br />
+            <p>
+                SlotFormer architecture overview. Taking multiple video frames
+                $\{x_t\}_{t=1}^T$ as input, we first extract object slots
+                $\{\mathcal{S}_t\}_{t=1}^T$ using the pretrained object-centric
+                model. Then, slots are linearly projected and added with
+                temporal positional encoding. The resulting tokens are fed to
+                the Transformer module to generate future slots
+                $\{\hat{\mathcal{S}}_{T+k}\}_{k=1}^K$ in an autoregressive
+                manner.
+            </p>
+        </div>
+
+        <!--------------------- Qualitative Results --------------------->
+        <div class="container">
+            <div align="center"><h2>Qualitative Results</h2></div>
+            <hr />
+
+            <!--------------------- OBJ3D --------------------->
+            <div align="center"><h3>OBJ3D</h3></div>
+            <div align="left">
+                <h4>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    GT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    PredRNN &nbsp;&nbsp;&nbsp; SAVi-dyn &nbsp;&nbsp;&nbsp; G-SWM
+                    &nbsp;&nbsp;&nbsp; VQFormer &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Ours
+                </h4>
+            </div>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/obj3d/83-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
+                    style="width: 80%"
+                />
+            </p>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/obj3d/31-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
+                    style="width: 80%"
+                />
+            </p>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/obj3d/194-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
+                    style="width: 80%"
+                />
+            </p>
+            <hr />
+
+            <!--------------------- CLEVRER --------------------->
+            <div align="center"><h3>CLEVRER</h3></div>
+            <div align="left">
+                <h4>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    GT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    PredRNN &nbsp;&nbsp;&nbsp; SAVi-dyn &nbsp;&nbsp;&nbsp; G-SWM
+                    &nbsp;&nbsp;&nbsp; VQFormer &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Ours
+                </h4>
+            </div>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/clevrer/1138-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
+                    style="width: 80%"
+                />
+            </p>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/clevrer/405-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
+                    style="width: 80%"
+                />
+            </p>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/clevrer/1533-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
+                    style="width: 80%"
+                />
+            </p>
+        </div>
+
+        <br /><br /><br />
     </body>
 </html>
