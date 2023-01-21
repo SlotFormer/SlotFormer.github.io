@@ -28,6 +28,7 @@
                 vertical-align: middle;
                 width: 100%;
                 max-width: 1000px;
+                font-size: 18px;
             }
             .container_img {
                 zoom: 1;
@@ -38,17 +39,488 @@
                 max-width: 1200px;
             }
         </style>
+
+        <!-- MathJax -->
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+              tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+              }
+            });
+        </script>
+
+        <script
+            type="text/javascript"
+            src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+        ></script>
     </head>
 
     <body>
         <div class="jumbotron jumbotron-fluid">
             <div class="container" align="center">
                 <h2>
-                    SlotFormer: Unsupervised Visual Dynamics Simulation<br>with Object-Centric Models
+                    SlotFormer: Unsupervised Visual Dynamics Simulation<br />with
+                    Object-Centric Models
                 </h2>
-                <h4><i>Under Review at ICLR 2023</i></h4>
-                <p>Anonymous Authors</p>
+                <h4><i>ICLR 2023</i></h4>
+                <p>
+                    <a href="https://wuziyi616.github.io/">Ziyi Wu</a><sup>1,2</sup>,&nbsp;
+                    <a href="https://scholar.google.com/citations?user=UOLJQTIAAAAJ&hl=en">Nikita Dvornik</a><sup>3,1</sup>,&nbsp;
+                    <a href="https://qwlouse.github.io/">Klaus Greff</a><sup>4</sup>,&nbsp;
+                    <a href="https://tkipf.github.io/">Thomas Kipf</a><sup>4,*</sup>,&nbsp;
+                    <a href="https://animesh.garg.tech/">Animesh Garg</a><sup>1,2,*</sup>
+                    <br/>
+                    <sup>1</sup>University of Toronto&nbsp;&nbsp;
+                    <sup>2</sup>Vector Institute&nbsp;&nbsp;
+                    <sup>3</sup>Samsung AI Centre Toronto&nbsp;&nbsp;
+                    <sup>4</sup>Google Research&nbsp;&nbsp;
+                    <br/>
+                    <sup>*</sup> Equal supervision
+                </p>
+                <h5>
+                    <a href="https://arxiv.org/abs/2210.05861">[Paper]</a>&nbsp;
+                    <a href="https://openreview.net/forum?id=TFbwV6I0VLg">[Review]</a>&nbsp;
+                    <a href="https://github.com/Wuziyi616/SlotFormer">[Code]</a>
+                </h5>
             </div>
         </div>
+
+        <!--------------------- Teaser --------------------->
+        <div class="container">
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/phyre/task-21/00021133.gif"
+                    style="width: 30%"
+                />
+                &nbsp;
+                <img
+                    border="0"
+                    src="src/phyre/task-22/00022819.gif"
+                    style="width: 30%"
+                />
+                &nbsp;
+                <img
+                    border="0"
+                    src="src/phyre/task-7/00007001.gif"
+                    style="width: 30%"
+                />
+            </p>
+        </div>
+
+        <!--------------------- Abstract --------------------->
+        <br />
+        <div class="container">
+            <div align="center"><h2>Abstract</h2></div>
+            <hr />
+            <p>
+                Understanding dynamics from visual observations is a challenging
+                problem that requires disentangling individual objects from the
+                scene and learning their interactions. While recent
+                object-centric models can successfully decompose a scene into
+                objects, modeling their dynamics effectively still remains a
+                challenge. We address this problem by introducing SlotFormer --
+                a Transformer-based autoregressive model operating on learned
+                object-centric representations. Given a video clip, our approach
+                reasons over object features to model spatio-temporal
+                relationships and predicts accurate future object states. In
+                this paper, , we successfully apply SlotFormer to perform video
+                prediction on datasets with complex object interactions.
+                Moreover, the unsupervised SlotFormer's dynamics model can be
+                used to improve the performance on supervised downstream tasks,
+                such as Visual Question Answering (VQA), and goal-conditioned
+                planning. Compared to past works on dynamics modeling, our
+                method achieves significantly better long-term synthesis of
+                object dynamics, while retaining high quality visual generation.
+                Besides, SlotFormer enables VQA models to reason about the
+                future without object-level labels, even outperforming
+                counterparts that use ground-truth annotations. Finally, we show
+                its ability to serve as a world model for model-based planning,
+                which is competitive with methods designed specifically for such
+                tasks.
+            </p>
+        </div>
+
+        <!--------------------- Method --------------------->
+        <br />
+        <div class="container">
+            <div align="center"><h2>Method</h2></div>
+            <hr />
+        </div>
+        <div class="container_img">
+            <p align="center">
+                <img border="0" src="src/pipeline.png" style="width: 65%" />
+            </p>
+        </div>
+        <div class="container">
+            <p>
+                SlotFormer architecture overview. Taking multiple video frames
+                $\{x_t\}_{t=1}^T$ as input, we first extract object slots
+                $\{\mathcal{S}_t\}_{t=1}^T$ using the pretrained object-centric
+                model. Then, slots are linearly projected and added with
+                temporal positional encoding. The resulting tokens are fed to
+                the Transformer module to generate future slots
+                $\{\hat{\mathcal{S}}_{T+k}\}_{k=1}^K$ in an autoregressive
+                manner.
+            </p>
+        </div>
+        <br />
+        <div class="container_img">
+            <p align="center">
+                <img border="0" src="src/vqa-pipeline.png" style="width: 75%" />
+            </p>
+        </div>
+        <div class="container">
+            <p>
+                SlotFormer integrated with downstream task models. Given a video
+                and a question about the future event, (left) a vanilla VQA
+                model only reasons over observed frames and predicts the wrong
+                answer. (right) In contrast, we leverage SlotFormer to simulate
+                accurate future frames, which contain useful information for
+                producing the correct answer. In this way, the unsupervised
+                dynamics knowledge learned by SlotFormer can be transfered to
+                improve downstream supervised tasks.
+            </p>
+        </div>
+
+        <!--------------------- Qualitative Results --------------------->
+        <br />
+        <div class="container">
+            <div align="center"><h2>Qualitative Results</h2></div>
+            <hr />
+
+            <!--------------------- OBJ3D --------------------->
+            <div align="center"><h3>OBJ3D</h3></div>
+            <hr />
+            <p>
+                We show prediction results of SlotFormer and baselines on OBJ3D.
+                We use 6 burn-in frames, and rollout until 50 frames.
+            </p>
+            <div align="left">
+                <h5>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GT
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PredRNN &nbsp; SAVi-dyn
+                    &nbsp;&nbsp; G-SWM &nbsp;&nbsp; VQFormer &nbsp;&nbsp;&nbsp;
+                    Ours
+                </h5>
+            </div>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/obj3d/83-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
+                    style="width: 60%"
+                />
+            </p>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/obj3d/31-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
+                    style="width: 60%"
+                />
+            </p>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/obj3d/194-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
+                    style="width: 60%"
+                />
+            </p>
+
+            <!--------------------- CLEVRER --------------------->
+            <br />
+            <div align="center"><h3>CLEVRER</h3></div>
+            <hr />
+            <p>
+                We show prediction results of SlotFormer and baselines on
+                CLEVRER. We use 6 burn-in frames, and rollout until 48 frames.
+            </p>
+            <div align="left">
+                <h5>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GT
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PredRNN &nbsp; SAVi-dyn
+                    &nbsp;&nbsp; G-SWM &nbsp;&nbsp; VQFormer &nbsp;&nbsp;&nbsp;
+                    Ours
+                </h5>
+            </div>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/clevrer/1138-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
+                    style="width: 60%"
+                />
+            </p>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/clevrer/405-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
+                    style="width: 60%"
+                />
+            </p>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/clevrer/1533-PredRNN-SAVi-dyn-G-SWM-VQFormer-SlotFormer.gif"
+                    style="width: 60%"
+                />
+            </p>
+
+            <!--------------------- PHYRE --------------------->
+            <br />
+            <div align="center"><h3>PHYRE</h3></div>
+            <hr />
+            <p>
+                We show prediction results of SlotFormer on PHYRE. All of the
+                rollouts are generated by observing only the first frame. We
+                pause the first frame for 0.5s to show the initial configuration
+                more clearly.
+            </p>
+            <div align="left">
+                <h4>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp; GT
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp; Ours
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GT
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp; Ours
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GT
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp; Ours
+                </h4>
+            </div>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/phyre/task-0/00000550.gif"
+                    style="width: 30%"
+                />
+                &nbsp;
+                <img
+                    border="0"
+                    src="src/phyre/task-24/00024370.gif"
+                    style="width: 30%"
+                />
+                &nbsp;
+                <img
+                    border="0"
+                    src="src/phyre/task-8/00008001.gif"
+                    style="width: 30%"
+                />
+            </p>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/phyre/task-0/00000853.gif"
+                    style="width: 30%"
+                />
+                &nbsp;
+                <img
+                    border="0"
+                    src="src/phyre/task-24/00024513.gif"
+                    style="width: 30%"
+                />
+                &nbsp;
+                <img
+                    border="0"
+                    src="src/phyre/task-8/00008605.gif"
+                    style="width: 30%"
+                />
+            </p>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/phyre/task-17/00017191.gif"
+                    style="width: 30%"
+                />
+                &nbsp;
+                <img
+                    border="0"
+                    src="src/phyre/task-19/00018989.gif"
+                    style="width: 30%"
+                />
+                &nbsp;
+                <img
+                    border="0"
+                    src="src/phyre/task-20/00020086.gif"
+                    style="width: 30%"
+                />
+            </p>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/phyre/task-17/00017234.gif"
+                    style="width: 30%"
+                />
+                &nbsp;
+                <img
+                    border="0"
+                    src="src/phyre/task-19/00019240.gif"
+                    style="width: 30%"
+                />
+                &nbsp;
+                <img
+                    border="0"
+                    src="src/phyre/task-20/00020889.gif"
+                    style="width: 30%"
+                />
+            </p>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/phyre/task-21/00021534.gif"
+                    style="width: 30%"
+                />
+                &nbsp;
+                <img
+                    border="0"
+                    src="src/phyre/task-22/00022125.gif"
+                    style="width: 30%"
+                />
+                &nbsp;
+                <img
+                    border="0"
+                    src="src/phyre/task-7/00007202.gif"
+                    style="width: 30%"
+                />
+            </p>
+
+            <!--------------------- Physion --------------------->
+            <br />
+            <div align="center"><h3>Physion</h3></div>
+            <hr />
+            <p>
+                We show prediction results of SlotFormer on Physion. As
+                discussed in the paper, Physion dataset features diverse
+                physical phenomenon, and complicated visual appearance such
+                textured objects, distractors, and diverse backgrounds. We adopt
+                STEVE as the object-centric model, which can handle visually
+                more complex data than SAVi.
+            </p>
+            <p>
+                However, STEVE uses a Transformer-based slot decoder to
+                reconstruct the patch tokens produced by a trained dVAE encoder.
+                So even its reconstructed images are of low quality (see Recon.
+                column). In addition, we do not train SlotFormer using pixel
+                reconstruction loss on Physion dataset due to GPU memory
+                constraint. Therefore, the generated videos are visually
+                unpleasant (See Rollout column). Nevertheless, they still
+                preserve the correct motion of objects, such as object
+                collisions and falling to the ground.
+            </p>
+            <div align="left">
+                <h4>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    GT
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp; Recon.
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Rollout
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GT
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp; Recon.
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;Rollout
+                </h4>
+            </div>
+            <p align="center">
+                <img border="0" src="src/physion/0002.gif" style="width: 48%" />
+                &nbsp;
+                <img border="0" src="src/physion/0154.gif" style="width: 48%" />
+            </p>
+            <p align="center">
+                <img border="0" src="src/physion/0300.gif" style="width: 48%" />
+                &nbsp;
+                <img border="0" src="src/physion/0452.gif" style="width: 48%" />
+            </p>
+            <p align="center">
+                <img border="0" src="src/physion/0603.gif" style="width: 48%" />
+                &nbsp;
+                <img border="0" src="src/physion/0750.gif" style="width: 48%" />
+            </p>
+            <p align="center">
+                <img border="0" src="src/physion/0901.gif" style="width: 48%" />
+                &nbsp;
+                <img border="0" src="src/physion/1053.gif" style="width: 48%" />
+            </p>
+            <br />
+            <p>
+                You may wonder whether STEVE really learns meaningful scene
+                decomposition. Here we show the segmentation masks produced by
+                STEVE, which highlights reasonable object segmentation.
+                Empirically, we observe that image reconstruction loss helps
+                with visual quality (e.g., color, shape), but has little effect
+                on object dynamics. Therefore, using purely a slot
+                reconstruction loss in the latent space is enough to learn the
+                dynamics.
+            </p>
+            <h4>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Video
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Per-Slot Masks
+            </h4>
+            <p align="center">
+                <img
+                    border="0"
+                    src="src/physion/steve_slots.gif"
+                    style="width: 80%"
+                />
+            </p>
+        </div>
+
+        <!--------------------- References --------------------->
+        <br /><br />
+        <div class="container">
+            <div align="center"><h2>References</h2></div>
+            <hr />
+            <p>
+                [1] Lin, Zhixuan, et al. "Improving generative imagination in
+                object-centric world models." ICML. 2020.
+            </p>
+            <p>
+                [2] Wang, Yunbo, et al. "Predrnn: Recurrent neural networks for
+                predictive learning using spatiotemporal lstms." NeurIPS. 2017.
+            </p>
+            <p>
+                [3] Zoran, Daniel, et al. "PARTS: Unsupervised segmentation with
+                slots, attention and independence maximization." ICCV. 2021.
+            </p>
+            <p>
+                [4] Yi, Kexin, et al. "CLEVRER: CoLlision Events for Video
+                REpresentation and Reasoning." ICLR. 2020.
+            </p>
+            <p>
+                [5] Bakhtin, Anton, et al. "Phyre: A new benchmark for physical
+                reasoning." NeurIPS. 2019.
+            </p>
+            <p>
+                [6] Bear, Daniel, et al. "Physion: Evaluating Physical
+                Prediction from Vision in Humans and Machines." NeurIPS Datasets
+                and Benchmarks Track. 2021.
+            </p>
+            <p>
+                [7] Kipf, Thomas, et al. "Conditional Object-Centric Learning
+                from Video." ICLR. 2021.
+            </p>
+            <p>
+                [8] Singh, Gautam, Yi-Fu Wu, and Sungjin Ahn. "Simple
+                Unsupervised Object-Centric Learning for Complex and
+                Naturalistic Videos." NeurIPS. 2022.
+            </p>
+        </div>
+
+        <br /><br /><br />
     </body>
 </html>
